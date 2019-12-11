@@ -14,6 +14,8 @@ import AuthForm from './AuthForm';
 const App: React.FC = () => {
   const [route, setRoute] = useState('/');
   const [loggedIn, setLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+  const [jwt, setJwt] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLButtonElement>): void => {
     setRoute(e.target.value);
@@ -21,7 +23,10 @@ const App: React.FC = () => {
 
   const homePage = loggedIn
     ? <Dashboard />
-    : <AuthForm />
+    : <AuthForm
+        setLoggedIn={setLoggedIn}
+        setCurrentUser={setCurrentUser}
+        setJwt={setJwt} />
 
   return (
     <div className="App">
