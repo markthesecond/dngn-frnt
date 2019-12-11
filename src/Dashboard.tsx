@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { DngnCntxt } from './App';
 import DashList from './DashList';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -6,10 +7,17 @@ import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 
-function Dashboard(): React.ReactElement {
+function Dashboard(props: any): React.ReactElement {
+  // const friendAdd = 
+  const [addingEntity, setAddingEntity] = useState('friend');
+  const [adding, setAdding] = useState(false);
+  const dngnContext: any = useContext(DngnCntxt);
+
+  
+
   return (
     <>
-      <Typography variant='h2' >Dngn Dash</Typography>
+      <Typography variant='h2' >{dngnContext.currentUser.username}'s Dash</Typography>
       <Container>
         <Paper>
           <Typography
