@@ -4,7 +4,6 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { async } from 'q';
 
 function AuthForm(props: any): ReactElement {
   const [username, setUsername] = useState('');
@@ -36,7 +35,6 @@ function AuthForm(props: any): ReactElement {
     })
     const parsedAuth = await authResponse.json();
 
-    console.log(parsedAuth)
     if (parsedAuth.data.userRegister.user) {
       props.setCurrentUser(parsedAuth.data.userRegister.user);
       props.setJwt(parsedAuth.data.userRegister.token);
@@ -44,10 +42,41 @@ function AuthForm(props: any): ReactElement {
     }
   }
 
+  const login = async () => {
+    const authQuery = {
+      "query":  `mutation {
+        userLogin(email: "${email}", password: "${password}") {
+          user {
+            _id
+            username
+            password
+          }
+          token
+        }
+      }`
+    }
+    const authResponse = await fetch('http://localhost:3080/graphql', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(authQuery)
+    });
+    const parsedAuth = await authResponse.json();
+    console.log(parsedAuth)
+
+    if (parsedAuth.data.userLogin.user) {
+      props.setCurrentUser(parsedAuth.data.userLogin.user);
+      props.setJwt(parsedAuth.data.userLogin.token);
+      props.setLoggedIn(true);
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (signedUp) {
-
+      login();
     } else {
       register();
     }
