@@ -10,8 +10,34 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Dashboard from './Dashboard';
 import AuthForm from './AuthForm';
+import CharacterContainer from './CharacterContainer';
 
-export const DngnCntxt = createContext({});
+export interface CurrentUser {
+  username?: string,
+  _id?: string,
+  jwt?: string 
+}
+
+export interface IDngnCntxt { //extends React.ContextType<any> {
+  loggedIn?: boolean,
+  setLoggedIn?: React.Dispatch<React.SetStateAction<boolean>>,
+  currentUser: CurrentUser,
+  setCurrentUser?: React.Dispatch<React.SetStateAction<CurrentUser>>,
+  jwt?: string,
+  setJwt?: React.Dispatch<React.SetStateAction<string>>
+}
+
+const dummyContext = {
+  loggedIn: false,
+  currentUser: {
+    username: '',
+    _id: '',
+    jwt: ''
+  },
+  jwt: ''
+}
+
+export const DngnCntxt: React.Context<IDngnCntxt> = createContext<IDngnCntxt>({...dummyContext});
 
 const App: React.FC = () => {
   const [route, setRoute] = useState('/');
@@ -43,6 +69,7 @@ const App: React.FC = () => {
             <Route path='/friends'>
             </Route>
             <Route path='/characters'>
+              <CharacterContainer />
             </Route>
             <Route path='/' >
               {homePage}

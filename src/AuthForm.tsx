@@ -25,14 +25,19 @@ function AuthForm(props: any): ReactElement {
         }
       }`
     }
-    const authResponse = await fetch('http://localhost:3080/graphql', {
+    
+    const queryUrl: string = process.env.REACT_APP_GRAPHQL_ENDPOINT
+      ? process.env.REACT_APP_GRAPHQL_ENDPOINT
+      : ''
+
+    const authResponse = await fetch(queryUrl, {
       method: 'POST',
       credentials: 'include',
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(authQuery)
-    })
+    });
     const parsedAuth = await authResponse.json();
 
     if (parsedAuth.data.userRegister.user) {

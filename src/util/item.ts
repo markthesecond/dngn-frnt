@@ -2,9 +2,10 @@ import { DieType } from './character';
 
 export interface Item {
   name: string,
-  weight: number,
+  weight?: number,
   rarity?: string,
   material?: string,
+  price?: number,
   description?: string,
   specialEffects?: Array<string>,
   type?: string
@@ -25,8 +26,9 @@ export enum ArmorCategory {
 export interface ArmorModel {
   armorCat: ArmorCategory,
   armorClass: number,
-  armorBonus: number,
-  stealthDisadvantage: boolean
+  armorBonus?: number,
+  stealthDisadvantage: boolean,
+  dexModifiier: boolean | number
 }
 
 export interface Roll {
@@ -40,7 +42,7 @@ export interface WeaponModel {
   damageRoll: Roll,
   damageBonus: number,
   properties: Array<string>,
-  rangeNormal: number,
-  rangeLong: number,
+  rangeNormal?: number,
+  rangeLong?: number,
   simple: boolean
 }
