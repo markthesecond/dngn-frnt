@@ -27,12 +27,12 @@ function Dashboard(): React.ReactElement {
   
   useEffect(() => {
     const fetchFriends = async () => {
-      const friendFrag = JSON.stringify(`fragment friendInfo on User {
+      const friendFrag = `fragment friendInfo on User {
         username
         _id
         email
-      }`)
-      const friendQuery = `{userById(_id: "id"){...friendInfo}}${friendFrag}`;
+      }`
+      const friendQuery = `{userById(_id: "id){...friendInfo}}${friendFrag}`;
       const friendVars = `{
         "variables": "{"id": "${dngnContext.currentUser._id}"}"
       }`;
@@ -75,12 +75,12 @@ function Dashboard(): React.ReactElement {
               <IconButton aria-label="add"><AddIcon /></IconButton>
           </Typography>
           <DashList />
-          <Typography
+          {/* <Typography
             variant='h4' >
             Groups
             <IconButton aria-label="add"><AddIcon /></IconButton>
           </Typography>
-          <DashList />
+          <DashList /> */}
         </Paper> 
       </Container>
     </>

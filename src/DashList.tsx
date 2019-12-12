@@ -2,10 +2,13 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 
 export interface ChipProp {
-  name: string
+  name: string,
+  icon: React.ReactNode
 }
 
-function DashList() {
+function DashList(props: any) {
+  // const chips = ;
+
   return (
     <Grid container >
     </Grid>
