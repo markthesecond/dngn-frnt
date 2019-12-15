@@ -8,6 +8,9 @@ import {
 } from 'react-router-dom';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import ApolloClient from 'apollo-boost';
+// import { gql } from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
 import Dashboard from './Dashboard';
 import AuthForm from './AuthForm';
 import CharacterContainer from './CharacterContainer';
@@ -39,6 +42,10 @@ const dummyContext = {
 
 export const DngnCntxt: React.Context<IDngnCntxt> = createContext<IDngnCntxt>({...dummyContext});
 
+const client: ApolloClient<any> = new ApolloClient({
+  uri: 'http://0.0.0.0:3080/graphql',
+});
+
 const App: React.FC = () => {
   const [route, setRoute] = useState('/');
   const [loggedIn, setLoggedIn] = useState(false);
@@ -63,7 +70,7 @@ const App: React.FC = () => {
       currentUser, setCurrentUser,
       jwt, setJwt
     }}>
-      <div className="App">
+      <ApolloProvider client={client} >
         <Router>
           <Switch>
             <Route path='/friends'>
@@ -96,7 +103,7 @@ const App: React.FC = () => {
               component={Link} />
           </BottomNavigation>
         </Router>
-      </div>
+      </ApolloProvider>
     </DngnCntxt.Provider>
   );
 }
