@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -7,7 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 
 import { CharacterModel } from './util/character';
-import { Typography } from '@material-ui/core';
+// import { Typography } from '@material-ui/core';
 
 export interface ICreationContext {
   // stages: Set<string>,
@@ -15,11 +15,11 @@ export interface ICreationContext {
   charChoices: CharacterModel
 }
 
-const initialContext: ICreationContext = {
-  // stages: new Set(),
-  currentStage: 'Intro',
-  charChoices: {}
-}
+// const initialContext: ICreationContext = {
+//   // stages: new Set(),
+//   currentStage: 'Intro',
+//   charChoices: {}
+// }
 
 const stages = [
   'Intro','Race','Class','Abilities','Items','Spells','Summary'
@@ -40,20 +40,20 @@ interface TPProps {
   value: any;
 }
 
-function TabPanel(props: TPProps) {
-  const { children, index, value, ...other } = props;
+// function TabPanel(props: TPProps) {
+//   const { children, index, value, ...other } = props;
 
-  return (
-    <Paper
-      hidden={value !== index}
-      {...other} >
-      <Typography variant='h5' >
-        {stages[index]}
-        {value === index && <Box p={3} >{children}</Box>}
-      </Typography>
-    </Paper>
-  )
-}
+//   return (
+//     <Paper
+//       hidden={value !== index}
+//       {...other} >
+//       <Typography variant='h5' >
+//         {stages[index]}
+//         {value === index && <Box p={3} >{children}</Box>}
+//       </Typography>
+//     </Paper>
+//   )
+// }
 
 function CharacterCreator(): any {
   const [currentStage,setCurrentStage] = useState(0);
