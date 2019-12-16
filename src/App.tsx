@@ -9,7 +9,6 @@ import {
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import ApolloClient from 'apollo-boost';
-// import { gql } from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import Dashboard from './Dashboard';
 import AuthForm from './AuthForm';
@@ -65,12 +64,12 @@ const App: React.FC = () => {
         setJwt={setJwt} />
 
   return (
-    <DngnCntxt.Provider value={{
-      loggedIn, setLoggedIn,
-      currentUser, setCurrentUser,
-      jwt, setJwt
-    }}>
-      <ApolloProvider client={client} >
+    <ApolloProvider client={client} >
+      <DngnCntxt.Provider value={{
+        loggedIn, setLoggedIn,
+        currentUser, setCurrentUser,
+        jwt, setJwt
+      }}>
         <Router>
           <Switch>
             <Route path='/friends'>
@@ -103,8 +102,8 @@ const App: React.FC = () => {
               component={Link} />
           </BottomNavigation>
         </Router>
-      </ApolloProvider>
     </DngnCntxt.Provider>
+  </ApolloProvider>
   );
 }
 
