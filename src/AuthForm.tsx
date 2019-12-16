@@ -1,89 +1,68 @@
 import React, { ReactElement, useState } from 'react';
+import { gql } from 'apollo-boost';
+import { useMutation } from '@apollo/react-hooks';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+AuthForm.fragments = {
+  userInfo: gql`
+    fragment userInfo on User {
+      _id
+      username
+      email
+    }
+  `
+}
+
+const LOGIN = gql`
+  mutation UserLogin($email: String!, $password: String!) {
+    userLogin(email: $email, password: $password) {
+      user {
+        ...userInfo
+      }
+      token
+    }
+  }
+  ${AuthForm.fragments.userInfo}
+`
+
+const REGISTER = gql`
+  mutation UserRegister($username: String, $email: String!, $password: String!) {
+    userRegister(username: $username, email: $email, password: $password) {
+      user {
+        ...userInfo
+      }
+      token
+    }
+  }
+  ${AuthForm.fragments.userInfo}
+`
+
 function AuthForm(props: any): ReactElement {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [signedUp, setSignedUp] = useState(true);
+  const [login, { loading, data }] = useMutation(LOGIN);
+  const [register, { data: regData }] = useMutation(REGISTER);
   const handleClick = () => {setSignedUp(!signedUp)};
-
-  const register = async () => {
-    const authQuery = {
-      "query": `mutation {
-        userRegister(username: "${username}", email: "${email}", password: "${password}") {
-          user {
-            username
-            _id
-            password
-          }
-          token
-        }
-      }`
-    }
-    
-    const queryUrl: string = process.env.REACT_APP_GRAPHQL_ENDPOINT
-      ? process.env.REACT_APP_GRAPHQL_ENDPOINT
-      : ''
-
-    const authResponse = await fetch(queryUrl, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(authQuery)
-    });
-    const parsedAuth = await authResponse.json();
-
-    if (parsedAuth.data.userRegister.user) {
-      props.setCurrentUser(parsedAuth.data.userRegister.user);
-      props.setJwt(parsedAuth.data.userRegister.token);
-      props.setLoggedIn(true);
-    }
-  }
-
-  const login = async () => {
-    const authQuery = {
-      "query":  `mutation {
-        userLogin(email: "${email}", password: "${password}") {
-          user {
-            _id
-            username
-            password
-          }
-          token
-        }
-      }`
-    }
-    const authResponse = await fetch('http://localhost:3080/graphql', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(authQuery)
-    });
-    const parsedAuth = await authResponse.json();
-    console.log(parsedAuth)
-
-    if (parsedAuth.data.userLogin.user) {
-      props.setCurrentUser(parsedAuth.data.userLogin.user);
-      props.setJwt(parsedAuth.data.userLogin.token);
-      props.setLoggedIn(true);
-    }
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (signedUp) {
-      login();
+      login({ variables: { email, password }});
+      setUsername('');
+      setEmail('');
+      setPassword('');
+      if (loading) {
+        console.log('loading',loading);
+      }
+      console.log(data)
     } else {
-      register();
+      register({ variables: { username, email, password }});
     }
   }
 
@@ -99,6 +78,25 @@ function AuthForm(props: any): ReactElement {
     ? <>Need an account Click <span onClick={handleClick}>here</span>.</>
     : <>Already signed up? Click <span onClick={handleClick}>here</span>.</>
 
+  const response: any = {};
+  // wait for data to return from a login or registration
+  response.user = data
+    ? data.userLogin.user
+    : props.currentUser
+  response.token = data
+    ? data.userLogin.token
+    : props.jwt
+  response.user = regData
+    ? regData.userRegister.user
+    : props.currentUser
+  response.token = regData
+    ? regData.userRegister.token
+    : props.jwt
+  // update state when data loads
+  // and do it on the top level as to not confuse the hooks
+  props.setCurrentUser(response.user);
+  props.setJwt(response.token);
+  props.setLoggedIn(Boolean(response.token));
   return (
     <Paper>
       <Typography variant='h4'>Sign {signedUp ? 'In' : 'Up'}</Typography>
