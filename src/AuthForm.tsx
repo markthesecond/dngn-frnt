@@ -46,24 +46,32 @@ function AuthForm(props: any): ReactElement {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [signedUp, setSignedUp] = useState(true);
-  const [login, { loading, data }] = useMutation(LOGIN);
-  const [register, { data: regData }] = useMutation(REGISTER);
+  const [login] = useMutation(LOGIN);
+  const [register] = useMutation(REGISTER);
   const handleClick = () => {setSignedUp(!signedUp)};
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (signedUp) {
-      login({ variables: { email, password }});
-      setUsername('');
-      setEmail('');
-      setPassword('');
-      if (loading) {
-        console.log('loading',loading);
+      await login({ variables: { email, password }})
+        .then(l => {
+          handleLogin(l.data.userLogin);
+        });
+      } else {
+        register({ variables: { username, email, password }})
+        .then(r => {
+          handleLogin(r.data.userRegister);
+        });
       }
-      console.log(data)
-    } else {
-      register({ variables: { username, email, password }});
     }
+    
+  const handleLogin = (login: any): void => {
+    setUsername('');
+    setEmail('');
+    setPassword('');
+    props.setCurrentUser(login.user);
+    props.setJwt(login.token);
+    props.setLoggedIn(Boolean(login.token));
   }
 
   const usernameField = signedUp
@@ -78,25 +86,6 @@ function AuthForm(props: any): ReactElement {
     ? <>Need an account Click <span onClick={handleClick}>here</span>.</>
     : <>Already signed up? Click <span onClick={handleClick}>here</span>.</>
 
-  const response: any = {};
-  // wait for data to return from a login or registration
-  response.user = data
-    ? data.userLogin.user
-    : props.currentUser
-  response.token = data
-    ? data.userLogin.token
-    : props.jwt
-  response.user = regData
-    ? regData.userRegister.user
-    : props.currentUser
-  response.token = regData
-    ? regData.userRegister.token
-    : props.jwt
-  // update state when data loads
-  // and do it on the top level as to not confuse the hooks
-  props.setCurrentUser(response.user);
-  props.setJwt(response.token);
-  props.setLoggedIn(Boolean(response.token));
   return (
     <Paper>
       <Typography variant='h4'>Sign {signedUp ? 'In' : 'Up'}</Typography>
