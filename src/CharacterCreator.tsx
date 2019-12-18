@@ -5,9 +5,10 @@ import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import { CharacterModel } from './util/character';
-// import { Typography } from '@material-ui/core';
+import CreationIntro from './CreationIntro';
 
 export interface ICreationContext {
   // stages: Set<string>,
@@ -38,34 +39,47 @@ interface TPProps {
   children?: React.ReactNode;
   index: any;
   value: any;
+  back?: any;
+  forward?: any;
 }
 
-// function TabPanel(props: TPProps) {
-//   const { children, index, value, ...other } = props;
-
-//   return (
-//     <Paper
-//       hidden={value !== index}
-//       {...other} >
-//       <Typography variant='h5' >
-//         {stages[index]}
-//         {value === index && <Box p={3} >{children}</Box>}
-//       </Typography>
-//     </Paper>
-//   )
-// }
+function TabPanel(props: TPProps) {
+  const { children, index, value, back, forward, ...other } = props;
+  const backButton = <Button color='secondary' onClick={back} >Back</Button>
+  const nextButton = <Button color='primary' onClick={forward} >Next</Button>
+  return (
+    <Paper
+    hidden={value !== index}
+    {...other} >
+      <Typography variant='h5' >
+        {stages[index]}
+        {value === index && <Box p={3}  >{children}</Box>}
+      </Typography>
+      {backButton}
+      {nextButton}
+    </Paper>
+  )
+}
 
 function CharacterCreator(): any {
   const [currentStage,setCurrentStage] = useState(0);
-
+  const [charChoices, setChoice] = useState<CharacterModel>({})
   const handleChange = (e: React.ChangeEvent<{}>, newStage: number) => {
     setCurrentStage(newStage);
+  }
+  
+  const goBack = () => {
+    if (currentStage) setCurrentStage(currentStage - 1);
+  }
+  
+  const goForward = () => {
+    if (!(currentStage === stages.length - 1)) setCurrentStage(currentStage + 1);
   }
 
   const tabs = stages.map((s,i) => <Tab key={i} label={stages[i]} value={i} {...a11yProps(i)}/>);
   // const screens = stages.map((s,i) => );
   
-  // const panels = stages.map()
+  // const panels = stages.map((s,i) => (<TabPanel key={i} value={currentStage} index={i} back={goBack} forward={goForward} ></TabPanel>))
 
   return (
     <Paper>
@@ -81,7 +95,13 @@ function CharacterCreator(): any {
                   {tabs}
               </Tabs>
             </AppBar>
-            
+            <TabPanel value={currentStage} index={0} back={goBack} forward={goForward} >
+              <CreationIntro />
+            </TabPanel>
+            <TabPanel value={currentStage} index={1} back={goBack} forward={goForward} >
+              
+            </TabPanel>
+            {/* {panels} */}
           </Box>
         </Grid>
       </Grid>
