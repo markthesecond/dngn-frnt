@@ -1,4 +1,4 @@
-import React, { /*useState, */useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { DngnCntxt, IDngnCntxt } from './App';
 import {
   // BrowserRouter as Router,
@@ -12,18 +12,47 @@ import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
-// import { IUser } from './util/user';
+import { gql } from 'apollo-boost';
+import { useQuery } from '@apollo/react-hooks';
+import { IUser } from './util/user';
+
+const GET_FRIENDS = gql`
+  query FriendsAndCharacters($_id: MongoID!) {
+    userById(_id: $_id) {
+      friends {
+        _id
+        username
+        email
+      }
+      characters {
+        _id
+        name
+        class {
+          name
+        }
+        race {
+          name
+        }
+      }
+    }
+  }
+`
 
 function Dashboard(): React.ReactElement {
   // const friendAdd = 
   // const [addingEntity, setAddingEntity] = useState('friend');
   // const [adding, setAdding] = useState(false);
-  // const [friends, setFriends] = useState<Array<IUser>>([]);
+  const [friends, setFriends] = useState<Array<IUser>>([]);
   const dngnContext: IDngnCntxt = useContext(DngnCntxt);
+  const {loading, data} = useQuery(GET_FRIENDS, {variables: {_id: dngnContext.currentUser._id}})
   
   useEffect(() => {
-    
-  });
+    if (data) setFriends(data.userById.friends)
+    console.log(friends)
+  }, [data, friends]);
+  if (loading) {
+    return <>Loading...</>
+  }
 
   return (
     <>
@@ -40,19 +69,13 @@ function Dashboard(): React.ReactElement {
               <AddIcon />
             </IconButton>
           </Typography>
-          <DashList />
+          <DashList characters={data.userById.characters} />
           <Typography
             variant='h4' >
               Friends
               <IconButton aria-label="add"><AddIcon /></IconButton>
           </Typography>
-          <DashList />
-          {/* <Typography
-            variant='h4' >
-            Groups
-            <IconButton aria-label="add"><AddIcon /></IconButton>
-          </Typography>
-          <DashList /> */}
+          <DashList friends={data.userById.friends} />
         </Paper> 
       </Container>
     </>

@@ -45,7 +45,7 @@ const SAVE_CHARACTER = gql`
 
 function CreationSummary({choices, setChoices}: any) {
   const [name,setName] = useState<string>('');
-  const [saveCharacter, {loading, error, data}] = useMutation(SAVE_CHARACTER);
+  const [saveCharacter] = useMutation(SAVE_CHARACTER);
   const handleChange = (e: React.ChangeEvent<{value: any}>) => {
     setName(e.target.value);
     setChoices({...choices, name: e.target.value});
