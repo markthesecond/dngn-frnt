@@ -12,6 +12,7 @@ import CreationIntro from './CreationIntro';
 import CreationRace from './CreationRace'
 import CreationClass from './CreationClass';
 import CreationAbilities from './CreationAbilities';
+import CreationSummary from './CreationSummary';
 
 export interface ICreationContext {
   // stages: Set<string>,
@@ -19,17 +20,9 @@ export interface ICreationContext {
   charChoices: CharacterModel
 }
 
-// const initialContext: ICreationContext = {
-//   // stages: new Set(),
-//   currentStage: 'Intro',
-//   charChoices: {}
-// }
-
 const stages = [
-  'Intro','Race','Class','Abilities','Items','Spells','Summary'
+  'Intro', 'Race', 'Class', 'Abilities', 'Summary'
 ]
-// const CreationContext:React.Context<ICreationContext> =
-//  createContext<ICreationContext>(initialContext);
 
 function a11yProps(index: any) {
   return {
@@ -80,9 +73,6 @@ function CharacterCreator(): any {
   }
 
   const tabs = stages.map((s,i) => <Tab key={i} label={stages[i]} value={i} {...a11yProps(i)}/>);
-  // const screens = stages.map((s,i) => );
-  
-  // const panels = stages.map((s,i) => (<TabPanel key={i} value={currentStage} index={i} back={goBack} forward={goForward} ></TabPanel>))
 
   return (
     <Paper>
@@ -109,6 +99,9 @@ function CharacterCreator(): any {
             </TabPanel>
             <TabPanel value={currentStage} index={3} back={goBack} forward={goForward} >
               <CreationAbilities choices={charChoices} setChoices={setChoice} />
+            </TabPanel>
+            <TabPanel value={currentStage} index={4} back={goBack} forward={goForward} >
+              <CreationSummary choices={charChoices} setChoices={setChoice} />
             </TabPanel>
           </Box>
         </Grid>
