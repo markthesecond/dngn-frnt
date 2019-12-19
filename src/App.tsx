@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import ApolloClient from 'apollo-boost';
+import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import Dashboard from './Dashboard';
 import AuthForm from './AuthForm';
@@ -43,6 +43,7 @@ export const DngnCntxt: React.Context<IDngnCntxt> = createContext<IDngnCntxt>({.
 
 const client: ApolloClient<any> = new ApolloClient({
   uri: 'http://0.0.0.0:3080/graphql',
+  cache: new InMemoryCache(),
 });
 
 const App: React.FC = () => {

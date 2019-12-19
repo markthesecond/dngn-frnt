@@ -49,17 +49,20 @@ export interface VisionModel {
 }
 
 export interface RaceModel {
-  name: string,
-  size: CreatureSize,
-  walkingSpeed: number,
-  vision: VisionModel,
-  languages: Array<string>,
-  abilityBonuses: [AbilityBonusModel],
-  skills: Array<string>,
-  traits: Array<string>
+  _id?: string,
+  name?: string,
+  size?: CreatureSize,
+  walkingSpeed?: number,
+  vision?: VisionModel,
+  languages?: Array<string>,
+  abilityBonuses?: [AbilityBonusModel],
+  skills?: Array<string>,
+  traits?: Array<string>,
+  description?: string
 }
 
 export interface ClassModel {
+  _id?: string,
   name: string,
   subclass?: boolean,
   hitDie: DieType,
@@ -81,6 +84,7 @@ export interface Proficiencies {
 }
 
 export interface CharacterModel {
+  _id?: string,
   name?: string,
   race?: RaceModel,
   abilities?: {

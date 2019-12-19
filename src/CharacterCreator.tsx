@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { CharacterModel } from './util/character';
 import CreationIntro from './CreationIntro';
+import CreationRace from './CreationRace'
 
 export interface ICreationContext {
   // stages: Set<string>,
@@ -99,7 +100,7 @@ function CharacterCreator(): any {
               <CreationIntro />
             </TabPanel>
             <TabPanel value={currentStage} index={1} back={goBack} forward={goForward} >
-              
+              <CreationRace choices={charChoices} setChoices={setChoice} />
             </TabPanel>
             {/* {panels} */}
           </Box>
