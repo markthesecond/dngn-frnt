@@ -90,4 +90,3 @@ function CreationClass({choices, setChoices}: any) {
 }
 
 export default CreationClass;
-

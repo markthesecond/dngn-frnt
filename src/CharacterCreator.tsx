@@ -11,6 +11,7 @@ import { CharacterModel } from './util/character';
 import CreationIntro from './CreationIntro';
 import CreationRace from './CreationRace'
 import CreationClass from './CreationClass';
+import CreationAbilities from './CreationAbilities';
 
 export interface ICreationContext {
   // stages: Set<string>,
@@ -105,6 +106,9 @@ function CharacterCreator(): any {
             </TabPanel>
             <TabPanel value={currentStage} index={2} back={goBack} forward={goForward} >
               <CreationClass choices={charChoices} setChoices={setChoice} />
+            </TabPanel>
+            <TabPanel value={currentStage} index={3} back={goBack} forward={goForward} >
+              <CreationAbilities choices={charChoices} setChoices={setChoice} />
             </TabPanel>
           </Box>
         </Grid>
