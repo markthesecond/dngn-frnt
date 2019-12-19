@@ -42,7 +42,7 @@ const dummyContext = {
 export const DngnCntxt: React.Context<IDngnCntxt> = createContext<IDngnCntxt>({...dummyContext});
 
 const client: ApolloClient<any> = new ApolloClient({
-  uri: 'http://0.0.0.0:3080/graphql',
+  uri: process.env.REACT_APP_GRAPHQL_ENDPOINT,
   cache: new InMemoryCache({
     addTypename: false
   }),
