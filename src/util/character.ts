@@ -73,7 +73,8 @@ export interface ClassModel {
   skillSelection: Array<string>,
   numberOfSkills: number,
   startingEquipment: StartItems,
-  traits: Array<string>
+  traits: Array<string>,
+  description: string,
 }
 
 export interface Proficiencies {
