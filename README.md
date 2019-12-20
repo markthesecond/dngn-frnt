@@ -1,44 +1,51 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# DngnBddy
+## dngn-frnt
 
-## Available Scripts
+### What is it?
 
-In the project directory, you can run:
+DngnBddy is comprised of a Node.js powered Express/MongoDB+GraphQL
+[backend](https://github.com/DarbyBohnWulf/dngn-bknd) and a React.js 
+frontend that, together, assist users through the D&D 5E character 
+creation process. Trying new things can be scary, so bring a
+Bddy!:wink:
 
-### `npm start`
+### Who made this?
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Me, Mark! I made this. Using skills I've gained over the years and honed over 3 months in General Assembly's Software Engineering Immersive. Hacking on this project has called on every tool in my toolboox and caused me to pick up a few more along the way.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Why did you do that?
 
-### `npm test`
+Well, roleplaying games of every medium hold a dear place in my heart,
+and I know that's true for many people. So why not apply some elbow
+grease and brain oil to try to bring something potentially useful to 
+the community. DM me about joining your pick-up session!
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### How do you do it?
 
-### `npm run build`
+It started with an `npm init` and I took off from there. First, I set
+up the backend server to serve as a standalone API using express,
+mongoose, graphql-compose-mongoose and apollo-server-express. That was
+the first because React is most fun with a database to actually talk
+to. Building a GraphQL API is a bit different from building a RESTful
+API, but once you get over the first couple of bumps, you'll never
+want to turn back.
+Next came create-react-app and apollo-boost to take care of all 
+the client-side action. I've used React a time or two before, but this
+time I took the opportunity to dive deep into React Hooks, and this
+repo features 100% functional components. Farewell class components, we
+hardly knew ye. I also took this opportunity to look into the guts of
+React using TypeScript to force me to think hard about exactly what my
+functions are returning and why.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### No, where do I go to start using it?
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Oh, well. You can click the link at the top of this repo to be taken to
+a live version of the app running on Heroku and MongoDB Atlas. Or, if
+you want to hoard all the fun for yourself (or maybe share a merge),
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. just clone (after forking, if you're feeling hackerish) this repo and 
+[dngn-bknd](https://github.com/DarbyBohnWulf/dngn-bknd)
+2.  Run a cool `npm i` to start.
+3.  For this project, you'll want to add 'REACT_APP_GRAPHQL_ENDPOINT' to your environment. Mine pointed to http://localhost:3080/graphql, but feel free to get creative.
+4.   Run `npm start` in 'dngn-bknd' and 'dngn-frnt' each
+5.  nd you should be good to go.

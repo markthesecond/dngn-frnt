@@ -20,7 +20,7 @@ export interface CurrentUser {
   jwt?: string 
 }
 
-export interface IDngnCntxt { //extends React.ContextType<any> {
+export interface IDngnCntxt {
   loggedIn?: boolean,
   setLoggedIn?: React.Dispatch<React.SetStateAction<boolean>>,
   currentUser: CurrentUser,
