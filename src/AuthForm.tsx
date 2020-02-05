@@ -48,6 +48,16 @@ function AuthForm(props: any): ReactElement {
   const [signedUp, setSignedUp] = useState(true);
   const [login] = useMutation(LOGIN);
   const [register] = useMutation(REGISTER);
+
+  const checkAuth = async (): Promise<void> => {
+    const auth = await fetch('http://localhost:3080/auth/');
+    const parsedAuth = await auth.json();
+
+    console.log("auth res\n", parsedAuth);
+    
+    // return void
+  }
+
   const handleClick = () => {setSignedUp(!signedUp)};
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -70,7 +80,6 @@ function AuthForm(props: any): ReactElement {
     setEmail('');
     setPassword('');
     props.setCurrentUser(login.user);
-    props.setJwt(login.token);
     props.setLoggedIn(Boolean(login.token));
   }
 
@@ -85,6 +94,12 @@ function AuthForm(props: any): ReactElement {
   const authSwitchText = signedUp
     ? <>Need an account Click <span onClick={handleClick}>here</span>.</>
     : <>Already signed up? Click <span onClick={handleClick}>here</span>.</>
+
+  try {
+    checkAuth();
+  } catch (err) {
+    console.error("couldn't check auth\n", err);
+  }
 
   return (
     <Paper>

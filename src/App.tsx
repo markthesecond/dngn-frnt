@@ -25,8 +25,6 @@ export interface IDngnCntxt {
   setLoggedIn?: React.Dispatch<React.SetStateAction<boolean>>,
   currentUser: CurrentUser,
   setCurrentUser?: React.Dispatch<React.SetStateAction<CurrentUser>>,
-  jwt?: string,
-  setJwt?: React.Dispatch<React.SetStateAction<string>>
 }
 
 const dummyContext = {
@@ -34,9 +32,7 @@ const dummyContext = {
   currentUser: {
     username: '',
     _id: '',
-    jwt: ''
   },
-  jwt: ''
 }
 
 export const DngnCntxt: React.Context<IDngnCntxt> = createContext<IDngnCntxt>({...dummyContext});
@@ -52,7 +48,6 @@ const App: React.FC = () => {
   const [route, setRoute] = useState('/');
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [jwt, setJwt] = useState('');
 
 
   const handleChange = (e: React.ChangeEvent<HTMLButtonElement>): void => {
@@ -63,15 +58,13 @@ const App: React.FC = () => {
     ? <Dashboard />
     : <AuthForm
         setLoggedIn={setLoggedIn}
-        setCurrentUser={setCurrentUser}
-        setJwt={setJwt} />
+        setCurrentUser={setCurrentUser} />
 
   return (
     <ApolloProvider client={client} >
       <DngnCntxt.Provider value={{
         loggedIn, setLoggedIn,
         currentUser, setCurrentUser,
-        jwt, setJwt
       }}>
         <Router>
           <Switch>
