@@ -42,6 +42,7 @@ const client: ApolloClient<any> = new ApolloClient({
   cache: new InMemoryCache({
     addTypename: false
   }),
+  credentials: 'include'
 });
 
 const App: React.FC = () => {
