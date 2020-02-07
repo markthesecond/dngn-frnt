@@ -17,22 +17,23 @@ import CharacterContainer from './CharacterContainer';
 export interface CurrentUser {
   username?: string,
   _id?: string,
-  jwt?: string 
 }
 
 export interface IDngnCntxt {
   loggedIn?: boolean,
-  setLoggedIn?: React.Dispatch<React.SetStateAction<boolean>>,
+  setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>,
   currentUser: CurrentUser,
-  setCurrentUser?: React.Dispatch<React.SetStateAction<CurrentUser>>,
+  setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUser>>,
 }
 
 const dummyContext = {
   loggedIn: false,
+  setLoggedIn: () => {},
   currentUser: {
     username: '',
     _id: '',
   },
+  setCurrentUser: () => {},
 }
 
 export const DngnCntxt: React.Context<IDngnCntxt> = createContext<IDngnCntxt>({...dummyContext});
@@ -57,9 +58,7 @@ const App: React.FC = () => {
 
   const homePage = loggedIn
     ? <Dashboard />
-    : <AuthForm
-        setLoggedIn={setLoggedIn}
-        setCurrentUser={setCurrentUser} />
+    : <AuthForm />
 
   return (
     <ApolloProvider client={client} >
