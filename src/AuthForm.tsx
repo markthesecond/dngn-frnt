@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useEffect, useContext } from 'react';
 import { gql } from 'apollo-boost';
 import { useMutation } from '@apollo/react-hooks';
 import Paper from '@material-ui/core/Paper';
@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { DngnCntxt } from './App';
 
 AuthForm.fragments = {
   userInfo: gql`
@@ -48,39 +49,31 @@ function AuthForm(props: any): ReactElement {
   const [signedUp, setSignedUp] = useState(true);
   const [login] = useMutation(LOGIN);
   const [register] = useMutation(REGISTER);
-
-  const checkAuth = async (): Promise<void> => {
-    const auth = await fetch('http://localhost:3080/auth/');
-    const parsedAuth = await auth.json();
-
-    console.log("auth res\n", parsedAuth);
-    
-    // return void
-  }
+  const { setCurrentUser, setLoggedIn } = useContext(DngnCntxt);
 
   const handleClick = () => {setSignedUp(!signedUp)};
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (signedUp) {
-      await login({ variables: { email, password }})
+      login({ variables: { email, password }})
         .then(l => {
           handleLogin(l.data.userLogin);
         });
-      } else {
-        register({ variables: { username, email, password }})
+    } else {
+      register({ variables: { username, email, password }})
         .then(r => {
           handleLogin(r.data.userRegister);
         });
-      }
     }
+  }
     
   const handleLogin = (login: any): void => {
     setUsername('');
     setEmail('');
     setPassword('');
-    props.setCurrentUser(login.user);
-    props.setLoggedIn(Boolean(login.token));
+    setCurrentUser(login.user);
+    setLoggedIn(Boolean(login.user.username));
   }
 
   const usernameField = signedUp
@@ -95,11 +88,36 @@ function AuthForm(props: any): ReactElement {
     ? <>Need an account Click <span onClick={handleClick}>here</span>.</>
     : <>Already signed up? Click <span onClick={handleClick}>here</span>.</>
 
-  try {
-    checkAuth();
-  } catch (err) {
-    console.error("couldn't check auth\n", err);
-  }
+  useEffect(
+    () => {
+      try {
+        const checkAuth = async (): Promise<void> => {
+          const auth = await fetch(
+            'http://localhost:3080/auth',
+            {
+              credentials: 'include',
+            }
+          );
+          const parsedAuth = await auth.json();
+      
+          console.log("auth res\n", parsedAuth);
+      
+          if (parsedAuth.user.username) {
+            setCurrentUser({
+              _id: parsedAuth.user._id,
+              username: parsedAuth.user.username,
+            });
+            setLoggedIn(Boolean(parsedAuth.user.username));
+            console.log("logged in as " + parsedAuth.user.username);
+          }
+        }
+        checkAuth();
+      } catch (err) {
+        console.error("auth checking messed up\n", err);
+      }
+    },
+    [setCurrentUser,setLoggedIn]
+  );
 
   return (
     <Paper>
