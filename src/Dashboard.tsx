@@ -12,7 +12,7 @@ import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
-import { gql } from 'apollo-boost';
+import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import { IUser } from './util/user';
 

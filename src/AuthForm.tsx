@@ -1,5 +1,5 @@
 import React, { ReactElement, useState, useEffect, useContext } from 'react';
-import { gql } from 'apollo-boost';
+import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';

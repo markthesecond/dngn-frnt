@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
-import { gql } from 'apollo-boost';
+import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import { ClassModel } from './util/character';
 

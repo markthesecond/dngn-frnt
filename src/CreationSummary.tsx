@@ -12,7 +12,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import { useMutation } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost'
+import gql from 'graphql-tag';
 import { CharacterModel } from './util/character';
 
 CreationSummary.fragments = {
