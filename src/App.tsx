@@ -17,6 +17,7 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import Dashboard from './Dashboard';
 import AuthForm from './AuthForm';
 import CharacterContainer from './CharacterContainer';
+import TopBar from './TopBar';
 
 export interface CurrentUser {
   username?: string,
@@ -83,38 +84,39 @@ const App: React.FC = () => {
         loggedIn, setLoggedIn,
         currentUser, setCurrentUser,
       }}>
-        <Router>
-          <Switch>
-            <Route path='/friends'>
-            </Route>
-            <Route path='/characters'>
-              <CharacterContainer />
-            </Route>
-            <Route path='/' >
-              {homePage}
-            </Route>
-          </Switch>
-          <BottomNavigation
-            value={route}
-            onChange={handleChange}
-            showLabels>
-            <BottomNavigationAction
-              to='/'
-              label='Dashboard'
-              value='/'
-              component={Link} />
-            <BottomNavigationAction
-              to='/friends'
-              label='Friends'
-              value='/friends'
-              component={Link} />
-            <BottomNavigationAction
-              to='/characters'
-              label='Characters'
-              value='/characters'
-              component={Link} />
-          </BottomNavigation>
-        </Router>
+      <TopBar />
+      <Router>
+        <Switch>
+          <Route path='/friends'>
+          </Route>
+          <Route path='/characters'>
+            <CharacterContainer />
+          </Route>
+          <Route path='/' >
+            {homePage}
+          </Route>
+        </Switch>
+        <BottomNavigation
+          value={route}
+          onChange={handleChange}
+          showLabels>
+          <BottomNavigationAction
+            to='/'
+            label='Dashboard'
+            value='/'
+            component={Link} />
+          <BottomNavigationAction
+            to='/friends'
+            label='Friends'
+            value='/friends'
+            component={Link} />
+          <BottomNavigationAction
+            to='/characters'
+            label='Characters'
+            value='/characters'
+            component={Link} />
+        </BottomNavigation>
+      </Router>
     </DngnCntxt.Provider>
   </ApolloProvider>
   );
