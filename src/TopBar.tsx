@@ -27,6 +27,10 @@ const useStyles = makeStyles(theme => ({
   authButton: {
     marginLeft: 'auto',
   },
+  homeButton: {
+    textTransform: 'none',
+    color: '#fff',
+  },
 }))
 
 export default function TopBar(props: any): React.ReactElement {
@@ -51,10 +55,14 @@ export default function TopBar(props: any): React.ReactElement {
     <div className={ classes.root } >
       <AppBar position='static'>
         <Toolbar className={ classes.toolbar } >
-          <Typography
-            variant='h4' >
-            DngnBddy
-          </Typography>
+          <Button children={
+            <Typography
+              variant='h4' >
+              DngnBddy
+            </Typography> }
+            variant='outlined'
+            href='/'
+            className={ classes.homeButton } />
           { logoutButton }
         </Toolbar>
       </AppBar>
