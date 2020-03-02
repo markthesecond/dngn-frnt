@@ -100,15 +100,12 @@ function AuthForm(props: any): ReactElement {
           );
           const parsedAuth = await auth.json();
       
-          console.log("auth res\n", parsedAuth);
-      
           if (parsedAuth.user.username) {
             setCurrentUser({
               _id: parsedAuth.user._id,
               username: parsedAuth.user.username,
             });
             setLoggedIn(Boolean(parsedAuth.user.username));
-            console.log("logged in as " + parsedAuth.user.username);
           }
         }
         checkAuth();
