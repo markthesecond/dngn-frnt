@@ -89,9 +89,17 @@ function CreationSummary({choices, setChoices}: any) {
         </CardContent>
         <Button
           onClick={() => {
-            const safeChar = choices as CharacterModel;
+            const safeChar: CharacterModel = {
+              name: choices.name,
+              race: choices.race._id,
+              class: choices.class._id,
+              abilities: { ...choices.abilities },
+              alignment: { ...choices.alignment },
+              proficiencies: { ...choices.proficiencies },
+            }
             saveCharacter({ variables: {record: safeChar}});
-            }} >
+          }
+        } >
           Save
         </Button>
       </Card>
