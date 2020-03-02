@@ -48,7 +48,6 @@ function Dashboard(): React.ReactElement {
   
   useEffect(() => {
     if (data) setFriends(data.userById.friends)
-    console.log(friends)
   }, [data, friends]);
   if (loading) {
     return <>Loading...</>
