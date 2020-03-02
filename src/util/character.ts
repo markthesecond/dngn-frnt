@@ -88,6 +88,7 @@ export interface CharacterModel {
   _id?: string,
   name?: string,
   race?: RaceModel,
+  class?: ClassModel,
   abilities?: {
     str: number,
     dex: number,
