@@ -5,7 +5,6 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 // import Button from '@material-ui/core/Button';
-// import { gql } from 'apollo-boost';
 
 export interface ChipProp {
   name: string,
@@ -47,8 +46,8 @@ function DashList({friends, characters}: any) {
           <Card>
             <CardHeader title={f.username ? f.username : f.name} />
             <CardContent>
-              {f.email ? f.email : null}
-              {f.race ? f.race : null}
+              {f.race ? f.race.name + " " : null}
+              {f.class ? f.class.name : null}
             </CardContent>
             <CardActions>
               {/* <Button 
