@@ -4,10 +4,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from 'react-router-dom';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
@@ -18,6 +15,7 @@ import Dashboard from './Dashboard';
 import AuthForm from './AuthForm';
 import CharacterContainer from './CharacterContainer';
 import TopBar from './TopBar';
+import BottomBar from './BottomBar';
 
 export interface CurrentUser {
   username?: string,
@@ -63,14 +61,8 @@ const client: ApolloClient<any> = new ApolloClient({
 });
 
 const App: React.FC = () => {
-  const [route, setRoute] = useState('/');
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-
-
-  const handleChange = (e: React.ChangeEvent<HTMLButtonElement>): void => {
-    setRoute(e.target.value);
-  }
 
   const homePage = loggedIn
     ? <Dashboard />
@@ -94,26 +86,7 @@ const App: React.FC = () => {
             {homePage}
           </Route>
         </Switch>
-        <BottomNavigation
-          value={route}
-          onChange={handleChange}
-          showLabels>
-          <BottomNavigationAction
-            to='/'
-            label='Dashboard'
-            value='/'
-            component={Link} />
-          <BottomNavigationAction
-            to='/friends'
-            label='Friends'
-            value='/friends'
-            component={Link} />
-          <BottomNavigationAction
-            to='/characters'
-            label='Characters'
-            value='/characters'
-            component={Link} />
-        </BottomNavigation>
+        <BottomBar />
       </Router>
     </DngnCntxt.Provider>
   </ApolloProvider>
