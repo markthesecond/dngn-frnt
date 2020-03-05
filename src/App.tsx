@@ -1,17 +1,8 @@
 import React, { useState, createContext } from 'react';
 import './App.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from 'react-router-dom';
 import { ApolloProvider } from '@apollo/react-hooks';
-import Dashboard from './Dashboard';
-import AuthForm from './AuthForm';
-import CharacterContainer from './CharacterContainer';
-import TopBar from './TopBar';
-import BottomBar from './BottomBar';
 import client from './apolloClient';
+import DngnView from './DngnView';
 
 export interface CurrentUser {
   username?: string,
@@ -37,13 +28,12 @@ const dummyContext = {
 
 export const DngnCntxt: React.Context<IDngnCntxt> = createContext<IDngnCntxt>({...dummyContext});
 
+/**
+ * Highest level component
+ */
 const App: React.FC = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-
-  const homePage = loggedIn
-    ? <Dashboard />
-    : <AuthForm />
 
   return (
     <ApolloProvider client={client} >
@@ -51,20 +41,7 @@ const App: React.FC = () => {
         loggedIn, setLoggedIn,
         currentUser, setCurrentUser,
       }}>
-      <TopBar />
-      <Router>
-        <Switch>
-          <Route path='/friends'>
-          </Route>
-          <Route path='/characters'>
-            <CharacterContainer />
-          </Route>
-          <Route path='/' >
-            {homePage}
-          </Route>
-        </Switch>
-        <BottomBar />
-      </Router>
+      <DngnView />
     </DngnCntxt.Provider>
   </ApolloProvider>
   );
