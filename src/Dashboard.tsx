@@ -54,7 +54,7 @@ function Dashboard(): React.ReactElement {
   }
 
   return (
-    <>
+    <Paper>
       <Typography variant='h2' >{dngnContext.currentUser.username}'s Dash</Typography>
       <Container>
         <Paper>
@@ -77,7 +77,7 @@ function Dashboard(): React.ReactElement {
           <DashList friends={data.userById.friends} />
         </Paper> 
       </Container>
-    </>
+    </Paper>
   )
 }
 
