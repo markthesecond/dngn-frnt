@@ -69,10 +69,14 @@ function AuthForm(props: any): ReactElement {
   }
     
   const handleLogin = (login: any): void => {
+    // clear form
     setUsername('');
     setEmail('');
     setPassword('');
+    // save user info into state
     setCurrentUser(login.user);
+    // save the token from the login to local storage
+    localStorage.setItem('token', login.token);
     setLoggedIn(Boolean(login.user.username));
   }
 
