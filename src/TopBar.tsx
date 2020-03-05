@@ -31,18 +31,22 @@ const useStyles = makeStyles(theme => ({
     textTransform: 'none',
     color: '#fff',
   },
-}))
+}));
 
-export default function TopBar(props: any): React.ReactElement {
+export default function TopBar(): React.ReactElement {
   const classes = useStyles();
-  const [ logout/*, { data } */ ] = useMutation(USER_LOGOUT);
+  const [ logout ] = useMutation(USER_LOGOUT);
   const { loggedIn, setLoggedIn, setCurrentUser } = useContext(DngnCntxt);
 
-  const handleLogout = (): void => {
-    logout();
+  const handleLogout = async (): Promise<void> => {
+    // give server time to destroy the session
+    await logout();
+    // unset user related state locally
     setLoggedIn(false);
     setCurrentUser({ username: '', _id: '' });
+    localStorage.removeItem('token');
   }
+
   const logoutButton = loggedIn
     ? <Button
         onClick={ handleLogout }
