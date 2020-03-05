@@ -33,6 +33,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+/**
+ * A branded bar with a user actions
+ */
 export default function TopBar(): React.ReactElement {
   const classes = useStyles();
   const [ logout ] = useMutation(USER_LOGOUT);
