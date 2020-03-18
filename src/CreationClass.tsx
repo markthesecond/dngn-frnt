@@ -3,43 +3,13 @@ import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
-import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import { ClassModel } from './util/character';
+import { CREATION_CLASSES } from './graphql/characterQueries';
 
-CreationClass.fragments = {
-  classInfo: gql`
-    fragment classInfo on Class {
-      _id
-      name
-      subclass
-      hitDie
-      armor
-      weapon
-      tool
-      saves
-      skillSelection
-      numberOfSkills
-      startingEquipment
-      spellcasting {
-        able
-        ability
-      }
-      traits
-      description
-    }
-  `
-}
-
-const CREATION_CLASSES = gql`
-  query Classes {
-    classes {
-      ...classInfo
-    }
-  }
-  ${CreationClass.fragments.classInfo}
-`
-
+/**
+ * Panel to select a class for a character
+ */
 function CreationClass({choices, setChoices}: any) {
   const classDescription = `Your character's class describes how they interact 
     with their surroundings and make their living in the world. In game terms, 

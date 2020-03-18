@@ -3,40 +3,13 @@ import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
-import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import { RaceModel } from './util/character';
+import { CREATION_RACES } from './graphql/characterQueries';
 
-CreationRace.fragments = {
-  races: gql`
-    fragment creationStats on Race {
-      _id
-      name
-      vision {
-        type
-        distance
-      }
-      traits
-      skills
-      abilityBonuses {
-        ability
-        amount
-      }
-      languages
-      size
-      description
-    }
-  `
-}
-const CREATION_RACES = gql`
-  query Races {
-    races {
-      ...creationStats
-    }
-  }
-  ${CreationRace.fragments.races}
-`
-
+/**
+ * Panel to select a race for a character
+ */
 function CreationRace({choices, setChoices}: any) {
   const raceDescription = `Your character's race determines their overall appearance,
    and often gives a clue or two to their background. In terms of gameplay, 
@@ -51,9 +24,9 @@ function CreationRace({choices, setChoices}: any) {
   }, [data]);
 
   if (loading) {
-    return <>"Loading..."</>;
+    return <>Loading...</>;
   } else if (error) {
-    return <>"Error..." ${error.message}</>;
+    return <>Error... ${error.message}</>;
   }
   const options: Array<JSX.Element> = races.map((r: RaceModel) =>
     <option key={r._id} value={r._id} >{r.name}</option>);
