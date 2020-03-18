@@ -31,13 +31,19 @@ function a11yProps(index: any) {
   };
 }
 
+/** Interface for TabPanel props */
 interface TPProps {
   children?: React.ReactNode;
-  index: any;
-  value: any;
-  back?: any;
-  forward?: any;
+  /** required */
+  index: number;
+  /** indicates an index to show; all panels should agree */
+  value: number;
+  /** should change the {TPProps.value} to a lower index */
+  back?: () => void;
+  /** should change the value to a higher index */
+  forward?: () => void;
 }
+
 
 function TabPanel(props: TPProps) {
   const { children, index, value, back, forward, ...other } = props;
@@ -57,7 +63,10 @@ function TabPanel(props: TPProps) {
   )
 }
 
-function CharacterCreator(): any {
+/**
+ * A series of related panels that lead through character creation
+ */
+function CharacterCreator(): React.ReactElement {
   const [currentStage,setCurrentStage] = useState(0);
   const [charChoices, setChoice] = useState<CharacterModel>({})
   const handleChange = (e: React.ChangeEvent<{}>, newStage: number) => {

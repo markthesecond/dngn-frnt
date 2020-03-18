@@ -7,7 +7,10 @@ import {
 } from 'react-router-dom';
 import CharacterCreator from './CharacterCreator';
 
-function CharacterContainer() {
+/**
+ * Holds all character related views
+ */
+function CharacterContainer(): React.ReactElement {
 
   return (
     <Router>
