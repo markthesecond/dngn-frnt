@@ -1,5 +1,5 @@
 import React from 'react';
-// import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
 
 
-function AbilitySelect({handleAbilityChange, ability, children}: any) {
+function AbilitySelect({handleAbilityChange, ability, children, currentScore}: any) {
   const setDesc = () => {
     switch (ability) {
       case 'STR':
@@ -45,23 +45,26 @@ function AbilitySelect({handleAbilityChange, ability, children}: any) {
     }
   }
   const abilDesc: string = setDesc();
+
   return (
-    <Card>
-      <CardHeader title={<Typography variant='h5' >{ability}</Typography>}/>
-      <CardContent>
-        <Typography variant='body2' >{abilDesc}</Typography>
-      </CardContent>
-      <CardActions>
-        <Select
-          name={ability}
-          native
-          autoWidth
-          onChange={handleAbilityChange} >
-          <option value={undefined} >Select a Score...</option>
-          {children}
-        </Select>
-      </CardActions>
-    </Card>
+    <Grid item xs={12} md={6} lg={4} >
+      <Card>
+        <CardHeader title={ability} titleTypographyProps={{variant: "h5"}} />
+        <CardContent>
+          <Typography variant='body2' >{abilDesc}</Typography>
+        </CardContent>
+        <CardActions>
+          <Select
+            name={ability}
+            native
+            autoWidth
+            onChange={handleAbilityChange} >
+            <option value={undefined} >Select a Score...</option>
+            {children}
+          </Select>
+        </CardActions>
+      </Card>
+    </Grid>
   )
 }
 
