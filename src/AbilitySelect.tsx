@@ -7,7 +7,6 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
 
-
 function AbilitySelect({handleAbilityChange, ability, children, currentScore}: any) {
   const setDesc = () => {
     switch (ability) {
