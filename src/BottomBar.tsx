@@ -6,8 +6,8 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 export default function BottomBar(): React.FunctionComponentElement<JSX.Element> {
   const [route, setRoute] = useState('/');
 
-  const handleChange = (e: React.ChangeEvent<HTMLButtonElement>): void => {
-    setRoute(e.target.value);
+  const handleChange = (e: React.ChangeEvent<{}>, value: string): void => {
+    setRoute(value);
   }
   
   return (
