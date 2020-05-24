@@ -1,46 +1,12 @@
 import React, { ReactElement, useState, useEffect, useContext } from 'react';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { DngnCntxt } from './App';
-
-AuthForm.fragments = {
-  userInfo: gql`
-    fragment userInfo on User {
-      _id
-      username
-      email
-    }
-  `
-}
-
-const LOGIN = gql`
-  mutation UserLogin($email: String!, $password: String!) {
-    userLogin(email: $email, password: $password) {
-      user {
-        ...userInfo
-      }
-      token
-    }
-  }
-  ${AuthForm.fragments.userInfo}
-`
-
-const REGISTER = gql`
-  mutation UserRegister($username: String, $email: String!, $password: String!) {
-    userRegister(username: $username, email: $email, password: $password) {
-      user {
-        ...userInfo
-      }
-      token
-    }
-  }
-  ${AuthForm.fragments.userInfo}
-`
+import { LOGIN, REGISTER, ME } from './graphql/authQueries';
 
 function AuthForm(props: any): ReactElement {
   const [username, setUsername] = useState('');
@@ -49,6 +15,7 @@ function AuthForm(props: any): ReactElement {
   const [signedUp, setSignedUp] = useState(true);
   const [login] = useMutation(LOGIN);
   const [register] = useMutation(REGISTER);
+  const { data } = useQuery(ME);
   const { setCurrentUser, setLoggedIn } = useContext(DngnCntxt);
 
   const handleClick = () => {setSignedUp(!signedUp)};
@@ -94,30 +61,13 @@ function AuthForm(props: any): ReactElement {
 
   useEffect(
     () => {
-      try {
-        const checkAuth = async (): Promise<void> => {
-          const auth = await fetch(
-            'http://localhost:3080/auth',
-            {
-              credentials: 'include',
-            }
-          );
-          const parsedAuth = await auth.json();
-      
-          if (parsedAuth.user.username) {
-            setCurrentUser({
-              _id: parsedAuth.user._id,
-              username: parsedAuth.user.username,
-            });
-            setLoggedIn(Boolean(parsedAuth.user.username));
-          }
-        }
-        checkAuth();
-      } catch (err) {
-        console.error("auth checking messed up\n", err);
+      if (data && data.me) {
+        setCurrentUser({
+          ...data.me
+        });
+        setLoggedIn(Boolean(data.me.username));
       }
-    },
-    [setCurrentUser,setLoggedIn]
+    }
   );
 
   return (
