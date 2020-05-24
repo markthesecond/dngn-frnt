@@ -42,12 +42,12 @@ export default function TopBar(): React.ReactElement {
   const { loggedIn, setLoggedIn, setCurrentUser } = useContext(DngnCntxt);
 
   const handleLogout = async (): Promise<void> => {
-    // give server time to destroy the session
-    await logout();
+    localStorage.removeItem('token');
     // unset user related state locally
     setLoggedIn(false);
     setCurrentUser({ username: '', _id: '' });
-    localStorage.removeItem('token');
+    // give server time to destroy the session
+    await logout();
   }
 
   const logoutButton = loggedIn
