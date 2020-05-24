@@ -38,10 +38,63 @@ export enum CreatureSize {
   Gargantuan
 }
 
+export interface IAbilities {
+  [index: string]: number,
+  STR: number,
+  DEX: number,
+  CON: number,
+  INT: number,
+  WIS: number,
+  CHA: number,
+}
+
+/**
+ * Function to create an Abilities object
+ * @param str the value for the STR score, defaults to 8
+ * @param dex the value for the DEX score, defaults to 8
+ * @param con the value for the CON score, defaults to 8
+ * @param int the value for the INT score, defaults to 8
+ * @param wis the value for the WIS score, defaults to 8
+ * @param cha the value for the CHA score, defaults to 8
+ * @see Abilities
+ * @returns A new Abilities object based on supplied values
+ */
+export function createAbilities(
+  str = 8, dex = 8, con = 8, int = 8, wis = 8, cha = 8
+): IAbilities {
+  const result: IAbilities = {
+    STR: str,
+    DEX: dex,
+    CON: con,
+    INT: int,
+    WIS: wis,
+    CHA: cha
+  };
+  return result
+}
+
 export interface AbilityBonusModel {
   ability: Ability,
   amount: number
 }
+
+/**
+ * A method to return adjusted ability scores
+ * @param abilities the scores to adjust
+ * @param bonuses the array of bonuses, like from a Race model
+ * @returns the adjusted Abilities object
+ */
+export function applyBonuses(abilities: IAbilities, bonuses: AbilityBonusModel[]): IAbilities {
+  bonuses.forEach(b => {
+    abilities[b.ability] = abilities[b.ability] + b.amount
+  });
+  return abilities
+}
+
+/** */
+export function assignBonus(bonus: AbilityBonusModel, ability: Ability): AbilityBonusModel {
+  return { ability, amount: bonus.amount }
+} 
 
 export interface VisionModel {
   type: VisionType,
@@ -50,15 +103,15 @@ export interface VisionModel {
 
 export interface RaceModel {
   _id?: string,
-  name?: string,
-  size?: CreatureSize,
+  name: string,
+  size: CreatureSize,
   walkingSpeed?: number,
-  vision?: VisionModel,
-  languages?: Array<string>,
-  abilityBonuses?: [AbilityBonusModel],
-  skills?: Array<string>,
-  traits?: Array<string>,
-  description?: string
+  vision: VisionModel[],
+  languages: Array<string>,
+  abilityBonuses: AbilityBonusModel[],
+  skills: Array<string>,
+  traits: Array<string>,
+  description: string
 }
 
 export interface ClassModel {
@@ -89,14 +142,7 @@ export interface CharacterModel {
   name?: string,
   race?: RaceModel,
   class?: ClassModel,
-  abilities?: {
-    str: number,
-    dex: number,
-    con: number,
-    int: number,
-    wis: number,
-    cha: number
-  },
+  abilities?: IAbilities,
   alignment?: {
     orthodoxy: string,
     morality: string
@@ -106,4 +152,3 @@ export interface CharacterModel {
   feats?: Array<string>,
   religion?: string
 }
-
