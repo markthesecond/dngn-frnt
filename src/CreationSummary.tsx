@@ -12,36 +12,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import { CharacterModel } from './util/character';
-
-CreationSummary.fragments = {
-  characterInfo: gql`
-    fragment characterInfo on Character {
-      name
-      race {
-        name
-        description
-      }
-      abilities
-      class {
-        name
-        description
-      }
-    }
-  `
-}
-
-const SAVE_CHARACTER = gql`
-  mutation CreateCharacter($record: CreateOneCharacterInput!) {
-    characterAdd(record: $record) {
-      record {
-        ...characterInfo
-      }
-    }
-  }
-  ${CreationSummary.fragments.characterInfo}
-`
+import { SAVE_CHARACTER } from './graphql/characterQueries';
 
 function CreationSummary({choices, setChoices}: any) {
   const [name,setName] = useState<string>('');
@@ -49,6 +21,19 @@ function CreationSummary({choices, setChoices}: any) {
   const handleChange = (e: React.ChangeEvent<{value: any}>) => {
     setName(e.target.value);
     setChoices({...choices, name: e.target.value});
+  }
+
+  const makeCharacterFromChoices = (choices: any): CharacterModel => {
+    const char: CharacterModel = {
+      name: choices.name ? choices.name : null,
+      race: choices.race ? choices.race._id : null,
+      class: choices.class ? choices.class._id : null,
+      abilities: choices.abilities ? { ...choices.abilities } : null,
+      alignment: choices.alignment ? { ...choices.alignment } : null,
+      proficiencies: choices.proficiencies ? { ...choices.proficiencies } : null,
+    }
+
+    return char
   }
 
   const abilityScores = choices.abilities ? choices.abilities : {};
@@ -89,15 +74,8 @@ function CreationSummary({choices, setChoices}: any) {
         </CardContent>
         <Button
           onClick={() => {
-            const safeChar: CharacterModel = {
-              name: choices.name,
-              race: choices.race._id,
-              class: choices.class._id,
-              abilities: { ...choices.abilities },
-              alignment: { ...choices.alignment },
-              proficiencies: { ...choices.proficiencies },
-            }
-            saveCharacter({ variables: {record: safeChar}});
+            const safeChar = makeCharacterFromChoices(choices);
+            saveCharacter({ variables: { record: safeChar } });
           }
         } >
           Save
