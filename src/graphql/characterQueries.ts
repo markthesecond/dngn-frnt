@@ -43,6 +43,20 @@ const fragments = {
       description
     }
   `,
+    characterInfo: gql`
+    fragment characterInfo on Character {
+      name
+      race {
+        name
+        description
+      }
+      abilities
+      class {
+        name
+        description
+      }
+    }
+  `,
 }
 
 export const CREATION_RACES: DocumentNode = gql`
@@ -61,4 +75,15 @@ export const CREATION_CLASSES: DocumentNode = gql`
     }
   }
   ${fragments.classInfo}
+`
+
+export const SAVE_CHARACTER = gql`
+  mutation CreateCharacter($record: CreateOneCharacterInput!) {
+    characterAdd(record: $record) {
+      record {
+        ...characterInfo
+      }
+    }
+  }
+  ${fragments.characterInfo}
 `
