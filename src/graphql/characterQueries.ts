@@ -45,6 +45,7 @@ const fragments = {
   `,
     characterInfo: gql`
     fragment characterInfo on Character {
+      _id
       name
       race {
         name
@@ -77,7 +78,7 @@ export const CREATION_CLASSES: DocumentNode = gql`
   ${fragments.classInfo}
 `
 
-export const SAVE_CHARACTER = gql`
+export const CREATE_CHARACTER = gql`
   mutation CreateCharacter($record: CreateOneCharacterInput!) {
     characterAdd(record: $record) {
       record {
@@ -86,4 +87,20 @@ export const SAVE_CHARACTER = gql`
     }
   }
   ${fragments.characterInfo}
+`
+export const ADD_CHARACTER = gql`
+  mutation AddCharacter($userId: MongoID!,$charId: MongoID!) {
+    addCharacter(userId: $userId, charId: $charId) {
+      _id
+      username
+      characters {
+        race {
+          name
+        }
+        class {
+          name
+        }
+      }
+    }
+  }
 `
