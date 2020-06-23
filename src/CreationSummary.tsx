@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -13,11 +13,14 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import { useMutation } from '@apollo/react-hooks';
 import { CharacterModel } from './util/character';
-import { SAVE_CHARACTER } from './graphql/characterQueries';
+import { CREATE_CHARACTER, ADD_CHARACTER } from './graphql/characterQueries';
+import { DngnCntxt } from './App';
 
 function CreationSummary({choices, setChoices}: any) {
-  const [name,setName] = useState<string>('');
-  const [saveCharacter] = useMutation(SAVE_CHARACTER);
+  const [ name, setName ] = useState<string>('');
+  const [ saveCharacter ] = useMutation(CREATE_CHARACTER);
+  const [ addCharacter ] = useMutation(ADD_CHARACTER);
+  const { currentUser } = useContext(DngnCntxt);
   const handleChange = (e: React.ChangeEvent<{value: any}>) => {
     setName(e.target.value);
     setChoices({...choices, name: e.target.value});
@@ -34,6 +37,17 @@ function CreationSummary({choices, setChoices}: any) {
     }
 
     return char
+  }
+
+  const saveToAccount = async (): Promise<void> => {
+    const safeChar = makeCharacterFromChoices(choices);
+    const savedChar = await saveCharacter({ variables: { record: safeChar } });
+    console.log("saved character:\n", savedChar);
+    console.log("saved character id:\n", savedChar.data.characterAdd.record._id);
+    console.log("current user:\n", currentUser);
+    addCharacter({
+      variables: { userId: currentUser._id, charId: savedChar.data.characterAdd.record._id }
+    });
   }
 
   const abilityScores = choices.abilities ? choices.abilities : {};
@@ -73,11 +87,7 @@ function CreationSummary({choices, setChoices}: any) {
           </Table>
         </CardContent>
         <Button
-          onClick={() => {
-            const safeChar = makeCharacterFromChoices(choices);
-            saveCharacter({ variables: { record: safeChar } });
-          }
-        } >
+          onClick={ saveToAccount } >
           Save
         </Button>
       </Card>
