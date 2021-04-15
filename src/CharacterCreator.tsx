@@ -13,6 +13,7 @@ import CreationRace from './CreationRace'
 import CreationClass from './CreationClass';
 import CreationAbilities from './CreationAbilities';
 import CreationSummary from './CreationSummary';
+import { createAbilities } from './util/character';
 
 export interface ICreationContext {
   // stages: Set<string>,
@@ -68,7 +69,7 @@ function TabPanel(props: TPProps) {
  */
 function CharacterCreator(): React.ReactElement {
   const [currentStage,setCurrentStage] = useState(0);
-  const [charChoices, setChoice] = useState<CharacterModel>({})
+  const [charChoices, setChoice] = useState<CharacterModel>({ abilities: createAbilities() });
   const handleChange = (e: React.ChangeEvent<{}>, newStage: number) => {
     setCurrentStage(newStage);
   }

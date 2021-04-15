@@ -8,7 +8,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { abilityNames } from './CreationAbilities';
-import { applyBonuses, IAbilities, AbilityBonusModel } from './util/character';
+import { applyBonuses, IAbilities, AbilityBonusModel,
+  copyAbilities } from './util/character';
 
 export interface AbilityListProps {
   scores: IAbilities,
@@ -19,12 +20,13 @@ export interface AbilityListProps {
  * A list of a characters ability scores, with additional controls as needed
  */
 function AbilityList({scores, bonuses}: AbilityListProps): React.FunctionComponentElement<AbilityListProps> {
-  const adjustedScores: IAbilities = applyBonuses(scores, bonuses);
+  const adjustedScores: IAbilities = applyBonuses(copyAbilities(scores), bonuses);
   const abilityRows = abilityNames.map(n => {
     return (
       <TableRow key={ n } >
         <TableCell>{ n }</TableCell>
-        <TableCell align='right' >{ adjustedScores[n] }</TableCell>
+        <TableCell>{ scores[n] }</TableCell>
+        <TableCell>{ adjustedScores[n] }</TableCell>
       </TableRow>
     )
   });
@@ -38,6 +40,7 @@ function AbilityList({scores, bonuses}: AbilityListProps): React.FunctionCompone
               <TableRow>
                 <TableCell>Ability</TableCell>
                 <TableCell>Score</TableCell>
+                <TableCell>Total</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
