@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import AbilitySelect from './AbilitySelect';
-import { CharacterModel } from './util/character';
+import { IAbilities } from './util/character';
 
 interface Abilities {
   STR?: number | null,
@@ -25,14 +25,15 @@ function CreationAbilities({choices, setChoices}: any) {
   const handleAbilityChange = (event: React.ChangeEvent<{name: string | undefined, value: any}>): void => {
     console.log("immediately", event.target.name, event.target.value);
     const abilName: string = event.target.name ? event.target.name : 'F';
-    setAbilities(abilities => {
-      const abils = {...abilities, [abilName]: event.target.value};
-      setChoices((choices: CharacterModel) => {return {...choices, abilities: abils}})
-      return abils
+    const abilVal = parseInt(event.target.value);
+    console.log(`abilVal is ${abilVal}`);
+    const abils: IAbilities = { ...abilities, [abilName]: abilVal ? abilVal : 8 };
+    setAbilities(abils);
+    setChoices(() => {
+      return { ...choices, abilities: abils }
     });
     console.log('abilities', abilities);
   }
-  // setChoices((choices: CharacterModel) => {return {...choices, abilities}})
 
   const options = scores.map((s, i) => <option key={i} value={s} >{s}</option> );
   const abilitySelects = abilityNames.map(a => <AbilitySelect key={a} ability={a} handleAbilityChange={handleAbilityChange} children={options} />)

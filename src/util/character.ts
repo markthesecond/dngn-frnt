@@ -38,6 +38,55 @@ export enum CreatureSize {
   Gargantuan
 }
 
+export interface IAbilities {
+  [index: string]: number,
+  STR: number,
+  DEX: number,
+  CON: number,
+  INT: number,
+  WIS: number,
+  CHA: number,
+}
+
+/**
+ * Function to create an Abilities object
+ * @param str the value for the STR score, defaults to 8
+ * @param dex the value for the DEX score, defaults to 8
+ * @param con the value for the CON score, defaults to 8
+ * @param int the value for the INT score, defaults to 8
+ * @param wis the value for the WIS score, defaults to 8
+ * @param cha the value for the CHA score, defaults to 8
+ * @see IAbilities
+ * @returns A new Abilities object based on supplied values
+ */
+export function createAbilities(
+  str = 8, dex = 8, con = 8, int = 8, wis = 8, cha = 8
+): IAbilities {
+  return {
+    STR: str,
+    DEX: dex,
+    CON: con,
+    INT: int,
+    WIS: wis,
+    CHA: cha
+  }
+}
+
+export function copyAbilities(abils: IAbilities): IAbilities {
+  return {
+    STR: abils['STR'],
+    DEX: abils['DEX'],
+    CON: abils['CON'],
+    INT: abils['INT'],
+    WIS: abils['WIS'],
+    CHA: abils['CHA'],
+  }
+}
+
+export function iAbilitiesToString(abils: IAbilities): string {
+  return `[ STR: ${abils.STR}, DEX: ${abils.DEX}, CON: ${abils.CON}, INT: ${abils.INT}, WIS: ${abils.WIS}, CHA: ${abils.CHA}, ]`
+}
+
 export interface AbilityBonusModel {
   ability: Ability,
   amount: number
