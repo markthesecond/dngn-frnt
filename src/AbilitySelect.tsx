@@ -12,7 +12,7 @@ function AbilitySelect({handleAbilityChange, ability, children}: any) {
   const setDesc = () => {
     switch (ability) {
       case 'STR':
-        return `Strength measures bodily power, athletic Training, and the 
+        return `Strength measures bodily power, athletic training, and the 
           extent to which you can exert raw physical force. You add your 
           Strength modifier to your Attack roll and your damage roll when 
           attacking with a melee weapon.`
