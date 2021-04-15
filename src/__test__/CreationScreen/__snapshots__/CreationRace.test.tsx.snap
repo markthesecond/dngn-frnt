@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreationRace shows only primary select on render 1`] = `"Loading..."`;
