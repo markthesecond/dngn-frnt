@@ -11,4 +11,3 @@ test('App renders and allows sign in', () => {
   const signInButton = getByText(/Sign In/);
   expect(signInButton).toBeInTheDocument();
 });
-
