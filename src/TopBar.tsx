@@ -9,16 +9,13 @@ import { USER_LOGOUT } from './graphql/authQueries';
 import { DngnCntxt } from './App';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   toolbar: {
     alignItems: 'center',
     paddingTop: theme.spacing(1),
-    // paddingBottom: theme.spacing(2),
+    paddingBottom: theme.spacing(1),
   },
   title: {
     flexGrow: 1,
@@ -59,7 +56,6 @@ export default function TopBar(): React.ReactElement {
     : null // don't show a button if not logged in
 
   return (
-    <div className={ classes.root } >
       <AppBar position='static'>
         <Toolbar className={ classes.toolbar } >
           <Button children={
@@ -73,6 +69,5 @@ export default function TopBar(): React.ReactElement {
           { logoutButton }
         </Toolbar>
       </AppBar>
-    </div>
   )
 }

@@ -4,7 +4,7 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import { createMuiTheme, Theme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, Theme, ThemeProvider } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import { DngnCntxt } from './App';
@@ -15,12 +15,18 @@ import AuthForm from './AuthForm';
 import CharacterContainer from './CharacterContainer';
 import TopBar from './TopBar';
 import BottomBar from './BottomBar';
+import Grid from '@material-ui/core/Grid';
 
-const useStyles = makeStyles(theme => ({
-  sheet: {
+const useStyles = makeStyles({
+  grid: {
+    display: 'flex',
+    flexDirection: 'column',
     height: '100vh',
-  }
-}));
+  },
+  sheet: {
+    flexGrow: 1,
+  },
+});
 
 /**
  * Main view component, holds everything you can see
@@ -29,7 +35,7 @@ export default function DngnView(): React.ReactElement {
   const { loggedIn } = useContext(DngnCntxt);
   const prefersDarkMode: boolean = useMediaQuery('(prefers-color-scheme: dark)');
   const theme: Theme = useMemo<Theme>(
-    () => createMuiTheme({
+    () => createTheme({
       palette: {
         ...paletteOptions,
         type: prefersDarkMode ? 'dark' : 'light',
@@ -45,22 +51,24 @@ export default function DngnView(): React.ReactElement {
 
   return (
     <ThemeProvider theme={theme}>
-      <Paper className={classes.sheet} >
+      <Grid className={classes.grid}>
         <TopBar />
         <Router>
-          <Switch>
-            <Route path='/friends'>
-            </Route>
-            <Route path='/characters'>
-              <CharacterContainer />
-            </Route>
-            <Route path='/' >
-              {homePage}
-            </Route>
-          </Switch>
+          <Paper className={classes.sheet} >
+            <Switch>
+              <Route path='/friends'>
+              </Route>
+              <Route path='/characters'>
+                <CharacterContainer />
+              </Route>
+              <Route path='/' >
+                {homePage}
+              </Route>
+            </Switch>
+          </Paper>
           <BottomBar />
         </Router>
-      </Paper>
+      </Grid>
     </ThemeProvider>
   )
 }

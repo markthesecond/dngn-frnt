@@ -14,7 +14,7 @@ export default function BottomBar(): React.FunctionComponentElement<JSX.Element>
     <BottomNavigation
       value={route}
       onChange={handleChange}
-      showLabels>
+      showLabels >
       <BottomNavigationAction
         to='/'
         label='Dashboard'
