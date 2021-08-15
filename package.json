@@ -13,6 +13,7 @@
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
     "cors": "^2.8.5",
+    "express": "^4.17.1",
     "graphql": "^14.7.0",
     "graphql-tag": "^2.11.0",
     "react": "^16.14.0",
