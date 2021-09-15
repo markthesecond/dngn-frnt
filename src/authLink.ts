@@ -1,5 +1,5 @@
-import { ApolloLink } from 'apollo-link';
-import { setContext } from 'apollo-link-context';
+import { ApolloLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 
 const authLink: ApolloLink = setContext((_, { headers }) => {
   // read the auth token from local storage

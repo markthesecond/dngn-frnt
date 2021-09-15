@@ -1,12 +1,15 @@
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
-import { onError } from 'apollo-link-error';
-import { ApolloLink } from 'apollo-link';
+import {
+  ApolloClient,
+  InMemoryCache,
+  NormalizedCacheObject,
+  from,
+  HttpLink,
+} from '@apollo/client';
+import { onError } from '@apollo/client/link/error';
 import authLink from './authLink';
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-  link: ApolloLink.from([
+  link: from([
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors)
         graphQLErrors.forEach(({ message, locations, path }) =>
