@@ -11,7 +11,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { CharacterModel } from './util/character';
 import { CREATE_CHARACTER, ADD_CHARACTER } from './graphql/characterQueries';
 import { DngnCntxt } from './App';

@@ -1,6 +1,6 @@
 import React, { useState, createContext } from 'react';
 import './App.css';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
 import client from './apolloClient';
 import DngnView from './DngnView';
 
