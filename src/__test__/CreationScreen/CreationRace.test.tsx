@@ -2,7 +2,7 @@ import React from 'react';
 import CreationRace from '../../CreationRace';
 import { CREATION_RACES } from '../../graphql/characterQueries';
 import renderer from 'react-test-renderer';
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 
 const mock_result: any = [{
     _id: "mongoid1234",
